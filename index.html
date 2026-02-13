@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASET Music</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+  margin:0;
+  background:#0B0B0D;
+  font-family:'Inter', sans-serif;
+  color:#F5F5F5;
+  overflow-x:hidden;
+}
+
+header {
+  padding:20px 40px;
+  font-size:24px;
+  font-weight:600;
+  letter-spacing:2px;
+}
+
+.hero {
+  height:70vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#C1121F,#E85D04,#F7B801);
+  text-align:center;
+  flex-direction:column;
+}
+
+.hero h1 {
+  font-size:48px;
+  margin:0;
+}
+
+.hero button {
+  margin-top:20px;
+  padding:12px 24px;
+  background:black;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+.section-title {
+  padding:40px;
+  font-size:28px;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:20px;
+  padding:0 40px 80px;
+}
+
+.card {
+  position:relative;
+  height:400px;
+  background:#111114;
+  overflow:hidden;
+  cursor:pointer;
+}
+
+.card img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:0.5s ease;
+}
+
+.card:hover img {
+  transform:scale(1.1);
+}
+
+.card-overlay {
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  padding:20px;
+  transform:translateY(100%);
+  transition:0.5s ease;
+}
+
+.card:hover .card-overlay {
+  transform:translateY(0);
+}
+
+.modal {
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.9);
+  align-items:center;
+  justify-content:center;
+}
+
+.modal-content {
+  background:#111114;
+  padding:40px;
+  width:90%;
+  max-width:600px;
+}
+
+.close {
+  text-align:right;
+  cursor:pointer;
+  font-size:20px;
+}
+
+audio {
+  width:100%;
+  margin-top:20px;
+}
+
+</style>
+</head>
+<body>
+
+<header>ASET</header>
+
+<section class="hero">
+  <h1>ASET A7</h1>
+  <p>Golden Hour Session</p>
+  <button onclick="openModal('audio1.mp3')">Listen Now</button>
+</section>
+
+<div class="section-title">Episodes</div>
+
+<div class="grid">
+
+<div class="card" onclick="openModal('audio1.mp3')">
+<img src="cover1.jpg">
+<div class="card-overlay">
+<h3>A7 – Sunset Drive</h3>
+<p>Deep house | Golden vibes | 60 min</p>
+</div>
+</div>
+
+<div class="card" onclick="openModal('audio2.mp3')">
+<img src="cover2.jpg">
+<div class="card-overlay">
+<h3>A6 – Neon Nights</h3>
+<p>Late night session | Tech house</p>
+</div>
+</div>
+
+<div class="card" onclick="openModal('audio3.mp3')">
+<img src="cover3.jpg">
+<div class="card-overlay">
+<h3>A5 – Beach Frequencies</h3>
+<p>Daytime groove | Chill electronic</p>
+</div>
+</div>
+
+<div class="card" onclick="openModal('audio4.mp3')">
+<img src="cover4.jpg">
+<div class="card-overlay">
+<h3>A4 – Retro Pulse</h3>
+<p>Vintage club set | Analog textures</p>
+</div>
+</div>
+
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="close" onclick="closeModal()">X</div>
+    <h2>Now Playing</h2>
+    <audio id="player" controls></audio>
+  </div>
+</div>
+
+<script>
+
+function openModal(audioSrc) {
+  document.getElementById('modal').style.display='flex';
+  document.getElementById('player').src=audioSrc;
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display='none';
+  document.getElementById('player').pause();
+}
+
+</script>
+
+</body>
+</html>
