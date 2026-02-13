@@ -1,200 +1,320 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ASET Music</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<meta name="description" content="ASET Music — episódios, sets e cultura musical.">
+<meta name="robots" content="index,follow">
 
 <style>
 
-body {
-  margin:0;
-  background:#0B0B0D;
-  font-family:'Inter', sans-serif;
-  color:#F5F5F5;
-  overflow-x:hidden;
+:root{
+--bg:#0B0B0D;
+--panel:#111114;
+--text:#F5F5F5;
+--muted:rgba(245,245,245,.72);
+
+--gold:#F7B801;
+--orange:#E85D04;
+--red:#C1121F;
+
+--radius:20px;
+--max:1180px;
 }
 
-header {
-  padding:20px 40px;
-  font-size:24px;
-  font-weight:600;
-  letter-spacing:2px;
+*{box-sizing:border-box}
+body{
+margin:0;
+background:var(--bg);
+color:var(--text);
+font-family:Inter, sans-serif;
+overflow-x:hidden;
 }
 
-.hero {
-  height:70vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#C1121F,#E85D04,#F7B801);
-  text-align:center;
-  flex-direction:column;
+/* subtle texture */
+body:before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+opacity:.06;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+mix-blend-mode:overlay;
 }
 
-.hero h1 {
-  font-size:48px;
-  margin:0;
+.container{
+width:min(var(--max), calc(100% - 48px));
+margin:0 auto;
 }
 
-.hero button {
-  margin-top:20px;
-  padding:12px 24px;
-  background:black;
-  color:white;
-  border:none;
-  cursor:pointer;
+/* HEADER */
+
+header{
+position:sticky;
+top:0;
+background:rgba(11,11,13,.75);
+backdrop-filter:blur(10px);
+border-bottom:1px solid rgba(255,255,255,.06);
+z-index:50;
 }
 
-.section-title {
-  padding:40px;
-  font-size:28px;
+.nav{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:20px 0;
 }
 
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:20px;
-  padding:0 40px 80px;
+.logo img{
+height:32px;
+width:auto;
 }
 
-.card {
-  position:relative;
-  height:400px;
-  background:#111114;
-  overflow:hidden;
-  cursor:pointer;
+.nav-links{
+display:flex;
+gap:16px;
+font-size:13px;
+color:var(--muted);
 }
 
-.card img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:0.5s ease;
+/* HERO */
+
+.hero{
+padding:60px 0 40px;
 }
 
-.card:hover img {
-  transform:scale(1.1);
+.hero-box{
+background:
+radial-gradient(circle at 20% 30%, rgba(247,184,1,.15), transparent 50%),
+radial-gradient(circle at 70% 60%, rgba(232,93,4,.15), transparent 50%),
+linear-gradient(180deg, rgba(17,17,20,.95), rgba(11,11,13,.95));
+border:1px solid rgba(255,255,255,.08);
+border-radius:var(--radius);
+padding:40px;
 }
 
-.card-overlay {
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  background:linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-  padding:20px;
-  transform:translateY(100%);
-  transition:0.5s ease;
+.hero h1{
+margin:0;
+font-size:clamp(32px,4vw,48px);
+letter-spacing:-.02em;
 }
 
-.card:hover .card-overlay {
-  transform:translateY(0);
+.hero p{
+margin-top:12px;
+max-width:600px;
+color:var(--muted);
+font-size:14px;
+line-height:1.5;
 }
 
-.modal {
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.9);
-  align-items:center;
-  justify-content:center;
+/* EPISODES */
+
+.section-title{
+padding:40px 0 20px;
+font-size:18px;
 }
 
-.modal-content {
-  background:#111114;
-  padding:40px;
-  width:90%;
-  max-width:600px;
+.grid{
+display:grid;
+grid-template-columns:repeat(12,1fr);
+gap:18px;
+padding-bottom:60px;
 }
 
-.close {
-  text-align:right;
-  cursor:pointer;
-  font-size:20px;
+.ep{
+grid-column:span 6;
+position:relative;
+border-radius:var(--radius);
+overflow:hidden;
+border:1px solid rgba(255,255,255,.08);
+background:#111114;
+min-height:360px;
 }
 
-audio {
-  width:100%;
-  margin-top:20px;
+.ep img{
+width:100%;
+height:100%;
+object-fit:cover;
+transition:.6s ease;
+}
+
+.ep:hover img{
+transform:scale(1.1);
+}
+
+.overlay{
+position:absolute;
+inset:0;
+display:flex;
+flex-direction:column;
+justify-content:flex-end;
+padding:20px;
+background:linear-gradient(to top, rgba(0,0,0,.9), transparent 70%);
+transform:translateY(40%);
+transition:.4s ease;
+}
+
+.ep:hover .overlay{
+transform:translateY(0);
+}
+
+.overlay h3{
+margin:0;
+font-size:16px;
+}
+
+.overlay p{
+margin:8px 0 0;
+font-size:13px;
+color:var(--muted);
+}
+
+.actions{
+margin-top:14px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.btn{
+padding:10px 14px;
+border-radius:999px;
+background:rgba(0,0,0,.7);
+border:1px solid rgba(255,255,255,.15);
+font-size:12px;
+text-decoration:none;
+color:var(--text);
+transition:.2s ease;
+}
+
+.btn:hover{
+border-color:rgba(247,184,1,.6);
+transform:translateY(-1px);
+}
+
+.btn-download{
+border-color:rgba(232,93,4,.5);
+}
+
+/* responsive */
+
+@media(max-width:860px){
+.ep{grid-column:span 12;}
+.hero-box{padding:30px;}
+}
+
+footer{
+padding:40px 0;
+font-size:12px;
+color:rgba(255,255,255,.5);
+border-top:1px solid rgba(255,255,255,.05);
 }
 
 </style>
 </head>
+
 <body>
 
-<header>ASET</header>
+<header>
+<div class="container">
+<div class="nav">
+<div class="logo">
+<img src="logo-aset.png" alt="ASET Logo">
+</div>
+<div class="nav-links">
+<span>Episodes</span>
+<span>BlogSet</span>
+</div>
+</div>
+</div>
+</header>
+
+<main>
 
 <section class="hero">
-  <h1>ASET A7</h1>
-  <p>Golden Hour Session</p>
-  <button onclick="openModal('audio1.mp3')">Listen Now</button>
+<div class="container">
+<div class="hero-box">
+<h1>ASET Music</h1>
+<p>Plataforma minimalista para ouvir e baixar seus sets. Visual dark & vintage inspirado no cassete A7.</p>
+</div>
+</div>
 </section>
 
+<section>
+<div class="container">
 <div class="section-title">Episodes</div>
 
 <div class="grid">
 
-<div class="card" onclick="openModal('audio1.mp3')">
-<img src="cover1.jpg">
-<div class="card-overlay">
-<h3>A7 – Sunset Drive</h3>
-<p>Deep house | Golden vibes | 60 min</p>
+<!-- EP 1 -->
+<div class="ep">
+<img src="cover1.jpg" alt="">
+<div class="overlay">
+<h3>A7 – Golden Hour</h3>
+<p>Sunset session | Deep & warm house</p>
+<div class="actions">
+<a class="btn" target="_blank" href="https://drive.google.com/file/d/1_52NvwHGn3egI7TIXW349D_rndbmleA-/view">▶ Ouvir</a>
+<a class="btn btn-download" target="_blank" href="https://drive.google.com/uc?export=download&id=1_52NvwHGn3egI7TIXW349D_rndbmleA-">⬇ Baixar MP3</a>
+</div>
 </div>
 </div>
 
-<div class="card" onclick="openModal('audio2.mp3')">
-<img src="cover2.jpg">
-<div class="card-overlay">
+<!-- EP 2 -->
+<div class="ep">
+<img src="cover2.jpg" alt="">
+<div class="overlay">
 <h3>A6 – Neon Nights</h3>
-<p>Late night session | Tech house</p>
+<p>Late club textures</p>
+<div class="actions">
+<a class="btn" target="_blank" href="https://drive.google.com/file/d/1DzxfSUO6IdIxL6c88Xao31p6yJrvXTqk/view">▶ Ouvir</a>
+<a class="btn btn-download" target="_blank" href="https://drive.google.com/uc?export=download&id=1DzxfSUO6IdIxL6c88Xao31p6yJrvXTqk">⬇ Baixar MP3</a>
+</div>
 </div>
 </div>
 
-<div class="card" onclick="openModal('audio3.mp3')">
-<img src="cover3.jpg">
-<div class="card-overlay">
+<!-- EP 3 -->
+<div class="ep">
+<img src="cover3.jpg" alt="">
+<div class="overlay">
 <h3>A5 – Beach Frequencies</h3>
-<p>Daytime groove | Chill electronic</p>
+<p>California groove</p>
+<div class="actions">
+<a class="btn" target="_blank" href="https://drive.google.com/file/d/1ojDVffZMIesJag5FdGStOHY0RzuXvljI/view">▶ Ouvir</a>
+<a class="btn btn-download" target="_blank" href="https://drive.google.com/uc?export=download&id=1ojDVffZMIesJag5FdGStOHY0RzuXvljI">⬇ Baixar MP3</a>
+</div>
 </div>
 </div>
 
-<div class="card" onclick="openModal('audio4.mp3')">
-<img src="cover4.jpg">
-<div class="card-overlay">
+<!-- EP 4 -->
+<div class="ep">
+<img src="cover4.jpg" alt="">
+<div class="overlay">
 <h3>A4 – Retro Pulse</h3>
-<p>Vintage club set | Analog textures</p>
+<p>Vintage club set</p>
+<div class="actions">
+<a class="btn" target="_blank" href="https://drive.google.com/file/d/18rOui2ctUkaabkY9LxZaNlWZ48MvkLPy/view">▶ Ouvir</a>
+<a class="btn btn-download" target="_blank" href="https://drive.google.com/uc?export=download&id=18rOui2ctUkaabkY9LxZaNlWZ48MvkLPy">⬇ Baixar MP3</a>
 </div>
 </div>
-
 </div>
 
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <div class="close" onclick="closeModal()">X</div>
-    <h2>Now Playing</h2>
-    <audio id="player" controls></audio>
-  </div>
 </div>
+</div>
+</section>
 
-<script>
+</main>
 
-function openModal(audioSrc) {
-  document.getElementById('modal').style.display='flex';
-  document.getElementById('player').src=audioSrc;
-}
-
-function closeModal() {
-  document.getElementById('modal').style.display='none';
-  document.getElementById('player').pause();
-}
-
-</script>
+<footer>
+<div class="container">
+© 2025 ASET Music
+</div>
+</footer>
 
 </body>
 </html>
